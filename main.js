@@ -51,13 +51,15 @@ function showItem() {
     <div id="line" class="todoList">
     <input type="checkbox" id="checkbox">
     <h6 class="date">${today.getHours() + ":" + today.getMinutes()}</h6>
-    <p class="pText">${data}</p>
+    <p id="pText" class="pText">${data}</p>
     <button class="deleteTask" onClick="deleteItem(${index})">제거하기</button>
     </div>
     `;
   });
+
   itemShow.innerHTML = html;
 }
+
 showItem();
 
 function deleteItem(index) {
@@ -78,3 +80,16 @@ input.addEventListener("keyup", (event) => {
     add();
   }
 });
+
+// const checkbox = document.getElementById("checkbox");
+// const div = document.getElementById("line");
+
+// checkbox.addEventListener("change", () => {
+
+//   if (checkbox.checked) {
+//     // 체크 된 박스를 밑줄그어라
+//     div.style.textDecoration = "line-through";
+//   } else {
+//     div.style.textDecoration = "";
+//   }
+// };
