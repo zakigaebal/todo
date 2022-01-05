@@ -1,61 +1,80 @@
+const inputVal = document.getElementsByClassName("inputVal")[0];
 
- const inputVal = document.getElementsByClassName('inputVal')[0];
+const addTaskBtn = document.getElementsByClassName("btn")[0];
 
- const addTaskBtn = document.getElementsByClassName('btn')[0];
- 
+const today = new Date();
 
-addTaskBtn.addEventListener('click', function (){
-  
-if(inputVal.value.trim()!=0){
-       let localItems = JSON.parse( localStorage.getItem('localItem'))
-    if(localItems === null){
-         taskList = []
-
-    }else{
-        taskList = localItems;
+function add() {
+  if (inputVal.value.trim() != 0) {
+    let localItems = JSON.parse(localStorage.getItem("localItem"));
+    if (localItems === null) {
+      taskList = [];
+    } else {
+      taskList = localItems;
     }
-    taskList.push(inputVal.value)
-    localStorage.setItem('localItem', JSON.stringify(taskList)); 
+    taskList.push(inputVal.value);
+    localStorage.setItem("localItem", JSON.stringify(taskList));
+    input.value = "";
+  }
+
+  showItem();
 }
 
-    showItem()
-})
-
-function showItem(){
-    let localItems = JSON.parse( localStorage.getItem('localItem'))
-    if(localItems === null){
-         taskList = []
-
-    }else{
-        taskList = localItems;
+addTaskBtn.addEventListener("click", function () {
+  if (inputVal.value.trim() != 0) {
+    let localItems = JSON.parse(localStorage.getItem("localItem"));
+    if (localItems === null) {
+      taskList = [];
+    } else {
+      taskList = localItems;
     }
+    taskList.push(inputVal.value);
+    localStorage.setItem("localItem", JSON.stringify(taskList));
+  }
 
+  showItem();
+});
 
-let html = '';
-let itemShow = document.querySelector('.todoLists');
-taskList.forEach((data, index )=> {
-    
+function showItem() {
+  let localItems = JSON.parse(localStorage.getItem("localItem"));
+  if (localItems === null) {
+    taskList = [];
+  } else {
+    taskList = localItems;
+  }
 
+  let html = "";
+  let itemShow = document.querySelector(".todoLists");
+
+  taskList.forEach((data, index) => {
     html += `
-    <div class="todoList">
+    <div id="line" class="todoList">
+    <input type="checkbox" id="checkbox">
+    <h6 class="date">${today.getHours() + ":" + today.getMinutes()}</h6>
     <p class="pText">${data}</p>
-    <button class="deleteTask" onClick="deleteItem(${index})">x</button>
+    <button class="deleteTask" onClick="deleteItem(${index})">제거하기</button>
     </div>
-    `
-})
-itemShow.innerHTML = html;
+    `;
+  });
+  itemShow.innerHTML = html;
 }
-showItem()
+showItem();
 
-function deleteItem(index){
-    let localItems = JSON.parse( localStorage.getItem('localItem'))
-    taskList.splice(index, 1)
-    localStorage.setItem('localItem', JSON.stringify(taskList));
-    showItem()
+function deleteItem(index) {
+  let localItems = JSON.parse(localStorage.getItem("localItem"));
+  taskList.splice(index, 1);
+  localStorage.setItem("localItem", JSON.stringify(taskList));
+  showItem();
 }
 
-function clearTask(){
-    
-localStorage.clear()
-showItem()
+function clearTask() {
+  localStorage.clear();
+  showItem();
 }
+
+const input = document.getElementsByClassName("inputVal")[0];
+input.addEventListener("keyup", (event) => {
+  if (event.keyCode === 13) {
+    add();
+  }
+});
